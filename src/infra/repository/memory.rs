@@ -23,7 +23,7 @@ impl TodoRepository for TodoRepositoryMemory {
             Some(item) => Ok(item.clone()),
             None => Err(Error::new(
                 ErrorKind::NotFound,
-                format!("Todo with {} not found in the database", id),
+                format!("Todo with id {} not found in the database", id),
             ))
         }
     }
