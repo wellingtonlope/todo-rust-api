@@ -1,8 +1,8 @@
 extern crate core;
 
-use std::cell::RefCell;
 use std::io::ErrorKind;
 use std::rc::Rc;
+use std::sync::Mutex;
 
 use chrono::Utc;
 
@@ -14,7 +14,7 @@ use todo_rust_api::infra::repository::memory::TodoRepositoryMemory;
 #[test]
 fn should_update_todo() {
     let todo_repository = Rc::new(TodoRepositoryMemory {
-        todos: RefCell::new(vec![])
+        todos: Mutex::new(vec![])
     });
     let usecase = UpdateTodo::new(todo_repository.clone());
 
@@ -64,7 +64,7 @@ fn should_update_todo() {
 #[test]
 fn shouldnt_update_todo_not_found() {
     let todo_repository = Rc::new(TodoRepositoryMemory {
-        todos: RefCell::new(vec![])
+        todos: Mutex::new(vec![])
     });
     let usecase = UpdateTodo::new(todo_repository.clone());
 
@@ -86,7 +86,7 @@ fn shouldnt_update_todo_not_found() {
 #[test]
 fn shouldnt_update_todo_invalid_input() {
     let todo_repository = Rc::new(TodoRepositoryMemory {
-        todos: RefCell::new(vec![])
+        todos: Mutex::new(vec![])
     });
     let usecase = UpdateTodo::new(todo_repository.clone());
 

@@ -2,7 +2,7 @@ use std::io::{Error, Result};
 
 use crate::domain::Todo;
 
-pub trait TodoRepository {
+pub trait TodoRepository: Sync + Send {
     fn insert(&self, todo: Todo) -> Result<Todo>;
     fn get_by_id(&self, id: String) -> Result<Todo>;
     fn update(&self, todo: Todo) -> Result<Todo>;

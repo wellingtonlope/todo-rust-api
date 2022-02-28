@@ -1,7 +1,7 @@
 extern crate core;
 
-use std::cell::RefCell;
 use std::rc::Rc;
+use std::sync::Mutex;
 
 use chrono::Utc;
 
@@ -13,7 +13,7 @@ use todo_rust_api::infra::repository::memory::TodoRepositoryMemory;
 #[test]
 fn should_get_all_todo() {
     let todo_repository = Rc::new(TodoRepositoryMemory {
-        todos: RefCell::new(vec![])
+        todos: Mutex::new(vec![])
     });
     let usecase = GetAllTodo::new(todo_repository.clone());
 

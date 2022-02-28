@@ -1,21 +1,23 @@
-use std::cell::RefCell;
 use std::io::{Error, ErrorKind, Result};
+use std::sync::Mutex;
 
 use crate::app::repository::TodoRepository;
 use crate::domain::Todo;
 
 pub struct TodoRepositoryMemory {
-    pub todos: RefCell<Vec<Todo>>,
+    pub todos: Mutex<Vec<Todo>>,
 }
 
 impl TodoRepository for TodoRepositoryMemory {
     fn insert(&self, todo: Todo) -> Result<Todo> {
-        self.todos.borrow_mut().push(todo.clone());
+        let mut data = self.todos.lock().unwrap();
+        data.push(todo.clone());
         Ok(todo)
     }
 
     fn get_by_id(&self, id: String) -> Result<Todo> {
-        let todos = self.todos.borrow();
+        let data = self.todos.lock().unwrap();
+        let todos = data;
         let todo = todos.iter()
             .filter(|todo| { id.eq(&todo.id) }).next();
 
@@ -29,7 +31,8 @@ impl TodoRepository for TodoRepositoryMemory {
     }
 
     fn update(&self, todo: Todo) -> Result<Todo> {
-        for update_todo in self.todos.borrow_mut().iter_mut() {
+        let mut data = self.todos.lock().unwrap();
+        for update_todo in data.iter_mut() {
             if todo.id.eq(&update_todo.id) {
                 *update_todo = todo.clone();
                 return Ok(todo);
@@ -43,11 +46,12 @@ impl TodoRepository for TodoRepositoryMemory {
     }
 
     fn get_all(&self) -> Result<Vec<Todo>> {
-        Ok(self.todos.borrow().to_vec())
+        Ok(self.todos.lock().unwrap().to_vec())
     }
 
     fn delete_by_id(&self, id: String) -> Option<Error> {
-        let position = self.todos.borrow().iter()
+        let mut data = self.todos.lock().unwrap();
+        let position = data.iter()
             .position(|item| {id.eq(&item.id)});
         if position.is_none() {
             return Some(Error::new(
@@ -56,8 +60,8 @@ impl TodoRepository for TodoRepositoryMemory {
             ));
         }
         let position = position.unwrap();
-        
-        self.todos.borrow_mut().remove(position);
+
+        data.remove(position);
 
         None
     }
