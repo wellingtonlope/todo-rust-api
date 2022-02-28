@@ -41,4 +41,8 @@ impl TodoRepository for TodoRepositoryMemory {
             format!("Todo with id {} not found in the database", todo.id),
         ))
     }
+
+    fn get_all(&self) -> Result<Vec<Todo>> {
+        Ok(self.todos.borrow().to_vec())
+    }
 }

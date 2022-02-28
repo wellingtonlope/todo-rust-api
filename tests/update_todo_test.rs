@@ -4,10 +4,10 @@ use std::cell::RefCell;
 use std::io::ErrorKind;
 use std::rc::Rc;
 
-use chrono::{DateTime, Utc};
+use chrono::Utc;
 
 use todo_rust_api::app::repository::TodoRepository;
-use todo_rust_api::app::usecase::{InsertTodo, InsertTodoInput, UpdateTodo, UpdateTodoInput, UseCase};
+use todo_rust_api::app::usecase::{UpdateTodo, UpdateTodoInput, UseCase};
 use todo_rust_api::domain::Todo;
 use todo_rust_api::infra::repository::memory::TodoRepositoryMemory;
 
@@ -94,7 +94,7 @@ fn shouldnt_update_todo_invalid_input() {
         Todo::new(
             String::from("title"),
             String::from("description"),
-            None
+            None,
         ).unwrap()
     );
     let saved_todo = saved_todo.unwrap();
