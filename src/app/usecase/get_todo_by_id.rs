@@ -34,8 +34,8 @@ impl GetTodoByIdOutput {
     }
 }
 
-impl GetTodoById {
-    pub fn handle(&self, input: GetTodoByIdInput) -> Result<GetTodoByIdOutput> {
+impl UseCase<GetTodoByIdInput, GetTodoByIdOutput> for GetTodoById {
+    fn handle(&self, input: GetTodoByIdInput) -> Result<GetTodoByIdOutput> {
         let todo = self.repository.get_by_id(input.id);
         if todo.is_err() {
             return Err(todo.unwrap_err());

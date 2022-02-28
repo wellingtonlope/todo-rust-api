@@ -7,7 +7,7 @@ use std::rc::Rc;
 use chrono::Utc;
 
 use todo_rust_api::app::repository::TodoRepository;
-use todo_rust_api::app::usecase::{GetTodoById, GetTodoByIdInput};
+use todo_rust_api::app::usecase::{GetTodoById, GetTodoByIdInput, UseCase};
 use todo_rust_api::domain::Todo;
 use todo_rust_api::infra::repository::memory::TodoRepositoryMemory;
 

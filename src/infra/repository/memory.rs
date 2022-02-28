@@ -11,7 +11,7 @@ pub struct TodoRepositoryMemory {
 impl TodoRepository for TodoRepositoryMemory {
     fn insert(&self, todo: Todo) -> Result<Todo> {
         self.todos.borrow_mut().push(todo.clone());
-        return Ok(todo);
+        Ok(todo)
     }
 
     fn get_by_id(&self, id: String) -> Result<Todo> {
@@ -26,5 +26,19 @@ impl TodoRepository for TodoRepositoryMemory {
                 format!("Todo with id {} not found in the database", id),
             ))
         }
+    }
+
+    fn update(&self, todo: Todo) -> Result<Todo> {
+        for update_todo in self.todos.borrow_mut().iter_mut() {
+            if todo.id.eq(&update_todo.id) {
+                *update_todo = todo.clone();
+                return Ok(todo);
+            }
+        }
+
+        Err(Error::new(
+            ErrorKind::NotFound,
+            format!("Todo with id {} not found in the database", todo.id),
+        ))
     }
 }

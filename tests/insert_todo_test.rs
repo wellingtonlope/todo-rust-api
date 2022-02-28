@@ -7,7 +7,7 @@ use std::rc::Rc;
 use chrono::Utc;
 
 use todo_rust_api::app::repository::TodoRepository;
-use todo_rust_api::app::usecase::{InsertTodo, InsertTodoInput};
+use todo_rust_api::app::usecase::{InsertTodo, InsertTodoInput, UseCase};
 use todo_rust_api::infra::repository::memory::TodoRepositoryMemory;
 
 #[test]
@@ -37,12 +37,12 @@ fn should_insert_todo() {
     assert_eq!(expected_description, output.description);
     assert_eq!(expected_created_date.unwrap(), output.created_date);
 
-    let saved_todo = todo_repository.get_by_id(output.id);
+    let saved_todo = todo_repository.get_by_id(output.id.clone());
     if saved_todo.is_err() {
         panic!("Saved todo shouldn't be an error!");
     }
     let saved_todo = saved_todo.unwrap();
-    assert_ne!(String::new(), saved_todo.id);
+    assert_eq!(output.id, saved_todo.id);
     assert_eq!(expected_title, saved_todo.title);
     assert_eq!(expected_description, saved_todo.description);
     assert_eq!(expected_created_date.unwrap(), saved_todo.created_date);

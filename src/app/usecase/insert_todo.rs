@@ -34,8 +34,8 @@ impl InsertTodoOutput {
     }
 }
 
-impl InsertTodo {
-    pub fn handle(&self, input: InsertTodoInput) -> Result<InsertTodoOutput> {
+impl UseCase<InsertTodoInput, InsertTodoOutput> for InsertTodo {
+    fn handle(&self, input: InsertTodoInput) -> Result<InsertTodoOutput> {
         let todo = Todo::new(input.title, input.description, input.created_date);
         if todo.is_err() {
             return Err(todo.unwrap_err());
