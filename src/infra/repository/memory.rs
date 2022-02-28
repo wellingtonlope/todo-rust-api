@@ -45,4 +45,20 @@ impl TodoRepository for TodoRepositoryMemory {
     fn get_all(&self) -> Result<Vec<Todo>> {
         Ok(self.todos.borrow().to_vec())
     }
+
+    fn delete_by_id(&self, id: String) -> Option<Error> {
+        let position = self.todos.borrow().iter()
+            .position(|item| {id.eq(&item.id)});
+        if position.is_none() {
+            return Some(Error::new(
+                ErrorKind::NotFound,
+                format!("Todo with id {} not found in the database", id),
+            ));
+        }
+        let position = position.unwrap();
+        
+        self.todos.borrow_mut().remove(position);
+
+        None
+    }
 }
