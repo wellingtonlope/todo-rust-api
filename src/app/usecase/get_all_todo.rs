@@ -1,9 +1,10 @@
+#[derive(Clone)]
 pub struct GetAllTodo {
-    repository: Rc<dyn TodoRepository>,
+    repository: Arc<dyn TodoRepository>,
 }
 
 impl GetAllTodo {
-    pub fn new(repository: Rc<dyn TodoRepository>) -> GetAllTodo {
+    pub fn new(repository: Arc<dyn TodoRepository>) -> GetAllTodo {
         GetAllTodo { repository }
     }
 }

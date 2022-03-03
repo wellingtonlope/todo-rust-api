@@ -1,9 +1,10 @@
+#[derive(Clone)]
 pub struct DeleteTodoById {
-    repository: Rc<dyn TodoRepository>,
+    repository: Arc<dyn TodoRepository>,
 }
 
 impl DeleteTodoById {
-    pub fn new(repository: Rc<dyn TodoRepository>) -> DeleteTodoById {
+    pub fn new(repository: Arc<dyn TodoRepository>) -> DeleteTodoById {
         DeleteTodoById { repository }
     }
 }

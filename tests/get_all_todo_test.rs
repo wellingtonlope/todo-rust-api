@@ -1,7 +1,6 @@
 extern crate core;
 
-use std::rc::Rc;
-use std::sync::Mutex;
+use std::sync::{Arc, Mutex};
 
 use chrono::Utc;
 
@@ -12,7 +11,7 @@ use todo_rust_api::infra::repository::memory::TodoRepositoryMemory;
 
 #[test]
 fn should_get_all_todo() {
-    let todo_repository = Rc::new(TodoRepositoryMemory {
+    let todo_repository = Arc::new(TodoRepositoryMemory {
         todos: Mutex::new(vec![])
     });
     let usecase = GetAllTodo::new(todo_repository.clone());

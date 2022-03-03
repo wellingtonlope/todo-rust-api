@@ -1,8 +1,7 @@
 extern crate core;
 
 use std::io::ErrorKind;
-use std::rc::Rc;
-use std::sync::Mutex;
+use std::sync::{Arc, Mutex};
 
 use todo_rust_api::app::repository::TodoRepository;
 use todo_rust_api::app::usecase::{DeleteTodoById, DeleteTodoByIdInput, UseCase};
@@ -11,7 +10,7 @@ use todo_rust_api::infra::repository::memory::TodoRepositoryMemory;
 
 #[test]
 fn should_delete_todo_by_id() {
-    let todo_repository = Rc::new(TodoRepositoryMemory {
+    let todo_repository = Arc::new(TodoRepositoryMemory {
         todos: Mutex::new(vec![])
     });
     let usecase = DeleteTodoById::new(todo_repository.clone());
@@ -37,7 +36,7 @@ fn should_delete_todo_by_id() {
 
 #[test]
 fn shouldnt_delete_todo_by_id() {
-    let todo_repository = Rc::new(TodoRepositoryMemory {
+    let todo_repository = Arc::new(TodoRepositoryMemory {
         todos: Mutex::new(vec![])
     });
     let usecase = DeleteTodoById::new(todo_repository.clone());
